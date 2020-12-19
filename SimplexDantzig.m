@@ -14,48 +14,84 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
 %
 % Patrick Nowak, Yannick Gläser, Tim Rauch, Ben , DATUM
 
-%checken wir den input:
-tol=1e-6
-m=size(A,1);
-n=size(A,2);
-if length(b)~=m || length(c)~=n
-    error('A,b,c nicht Dimensionsverträglich')
-end
-if rank(A)~=m
-    error('A hat nicht vollen Zeilenrang')
-end
-A_Binit=A(:,Binit);
-if rank(A_Binit)~=m
-    error('Binit ist keine Basis')
-elseif any(A_Binit\b<0)
-    error('Binit is nicht primal zulaessig')
-elseif any(A_Binit\b~=xB)
-    error('xB stimmen nicht')
-end
-% input ist jetzt top
+% Toleranz Definieren!(siehe Blatt)
+    tol=1e-6;
 
-B=Binit;
-N=setdiff((1:n),B)
-A_B=A_Binit;
+% Eingabefehler abfangen
+    m=size(A,1);
+    n=size(A,2);
+    if length(b)~=m || length(c)~=n
+        error('A,b,c nicht Dimensionsverträglich')
+    end
+    if rank(A)~=m
+        error('A hat nicht vollen Zeilenrang')
+    end
+    A_Binit=A(:,Binit);
+    if rank(A_Binit)~=m
+        error('Binit ist keine Basis')
+    elseif any(A_Binit\b<0)
+        error('Binit is nicht primal zulaessig')
+    elseif nargin==5 && any(A_Binit\b~=xB)
+            error('xB stimmen nicht')
+    end
 
-%BTRAN
- %loese y'A_B=c_B'
-y=(c(B).'/A(:,B)).'
+% Initialisierung
+    B=Binit;
+    N=setdiff((1:n),B);
+    if nargin<5
+        xB=A_Binit/b;
+    end
+    xopt=zeros(n,1);
+    for i=1:m
+        xopt(B(i))=xB(i);
+    end
+    
+for iteration=1:1000
+    iteration
+% Einzelnen Schritte des Algorithmus:
 
-%PRICING
+% (1) BTRAN:  
+    %loese y'A_B=c_B'
+    y=(c(B).'/A(:,B)).';
+
+% (2) Pricing:
     %berechne z_N=c_N-A_N'*y
-z_N=c(N)-A(:,N).'*y
-
-
-
+    z_N=c(N)-A(:,N).'*y;
+    if all(z_N>=0)
+        return
+    else
+        k=1;
+        while z_N(k)>=0
+            k=k+1;
+        end
+        j=N(k);
+    end
+% (3) FTRAN:
+    %loese A_B w=A.k
+    w=A(:,B)\A(:,j);
+% (4) Ratiotest:
+    if all(w<=0) %all or any ??
+        error('LP ist unbeschraenkt')
+    else
+        M=NaN*zeros(1,m);
+        for i=1:m
+            if(w(i)>0)
+                M(i)=xopt(B(i))/w(i);
+            end
+        end
+        [gamma,i]=min(M);
+    end 
+        
+% (5) Update:
+   % xopt=xB-gamma*w;
+    for l=1:m
+        xopt(B(l))=xopt(B(l))-gamma*w(l);
+    end
+    N(k)=B(i);
+    B(i)=j;
+    xopt(j)=gamma;    
+    op=-c'*xopt
+end
 
     
-% Toleranz Definieren!(siehe Blatt)
-% Eingabefehler abfangen
-% Initialisierung
-% Einzelnen Schritte des Algorithmus:
-% (1) BTRAN:  
-% (2) Pricing:
-% (3) FTRAN:
-% (4) Ratiotest:
-% (5) Update:
+
