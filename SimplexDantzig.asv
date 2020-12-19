@@ -40,11 +40,11 @@ A_B=A_Binit;
 
 %BTRAN
  %loese y'A_B=c_B'
-y=(c(B).'/A(:,B)).'
+y=c(B).'/A(:,B)
 
 %PRICING
     %berechne z_N=c_N-A_N'*y
-z_N=c(N)-A(:,N).'*y
+z_N=c(N)-A(:,N)'*y
 
 
 
