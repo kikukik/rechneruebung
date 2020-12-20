@@ -45,9 +45,10 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
     for i=1:m
         xopt(B(i))=xB(i);
     end
+    Zielfktnswert=c'*xopt
     
-for iteration=1:1000
-    iteration
+for iter=1:1000
+    iter
 % Einzelnen Schritte des Algorithmus:
 
 % (1) BTRAN:  
@@ -58,6 +59,7 @@ for iteration=1:1000
     %berechne z_N=c_N-A_N'*y
     z_N=c(N)-A(:,N).'*y;
     if all(z_N>=0)
+        message='LP hat optimallsg';
         return
     else
         k=1;
@@ -70,13 +72,16 @@ for iteration=1:1000
     %loese A_B w=A.k
     w=A(:,B)\A(:,j);
 % (4) Ratiotest:
-    if all(w<=0) %all or any ??
-        error('LP ist unbeschraenkt')
+    if any(w<=tol) %all or any ??
+        message='LP ist unbeschraenkt';
+        Zielfktnswert=NaN;
+        xopt=xopt*NaN;
+        return
     else
         M=NaN*zeros(1,m);
         for i=1:m
             if(w(i)>0)
-                M(i)=xopt(B(i))/w(i);
+                M(i)=(xopt(B(i)))/w(i);
             end
         end
         [gamma,i]=min(M);
@@ -90,7 +95,7 @@ for iteration=1:1000
     N(k)=B(i);
     B(i)=j;
     xopt(j)=gamma;    
-    op=-c'*xopt
+    Zielfktnswert=c'*xopt;
 end
 
     
