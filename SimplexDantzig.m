@@ -12,7 +12,7 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
 %         message   - Information über Optimallösung oder Unbeschraenktheit
 %         iter      - Anzahl der Iterationen
 %
-% Patrick Nowak, Yannick Gläser, Tim Rauch, Ben , DATUM
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM
 
 % Toleranz Definieren!(siehe Blatt)
     tol=1e-6;
@@ -62,17 +62,14 @@ for iter=1:1000
         message='LP hat optimallsg';
         return
     else
-        k=1;
-        while z_N(k)>=0
-            k=k+1;
-        end
+        [~,k]=min(z_N);
         j=N(k);
     end
 % (3) FTRAN:
-    %loese A_B w=A.k
-    w=A(:,B)\A(:,j);
+    %loese A_B w=A.j
+    w=A(:,B)\A(:,j); 
 % (4) Ratiotest:
-    if any(w<=tol) %all or any ??
+    if all(w<=0)
         message='LP ist unbeschraenkt';
         Zielfktnswert=NaN;
         xopt=xopt*NaN;
@@ -95,7 +92,7 @@ for iter=1:1000
     N(k)=B(i);
     B(i)=j;
     xopt(j)=gamma;    
-    Zielfktnswert=c'*xopt;
+    Zielfktnswert=c'*xopt; 
 end
 
     
