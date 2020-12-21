@@ -1,4 +1,4 @@
-function [ xopt,B,message, iter, Zielfktnswert] = SimplexBland( A,b,c,Binit,xB)
+function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
 %function [ xopt,B ,message, iter] = primalSimplex( A,b,c,Binit,xB )
 %
 % Primales Simplexverfahren
@@ -12,7 +12,7 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexBland( A,b,c,Binit,xB)
 %         message   - Information über Optimallösung oder Unbeschraenktheit
 %         iter      - Anzahl der Iterationen
 %
-% Patrick Nowak, Yannick Gläser, Tim Rauch, Ben , DATUM
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM
 
 % Toleranz Definieren!(siehe Blatt)
     tol=1e-6;
@@ -45,10 +45,11 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexBland( A,b,c,Binit,xB)
     for i=1:m
         xopt(B(i))=xB(i);
     end
-    Zielfktnswert=c'*xopt
+    Zielfktnswert=c'*xopt;
+    message='init';
     
 for iter=1:1000
-    iter
+    iter;
 % Einzelnen Schritte des Algorithmus:
 
 % (1) BTRAN:  
@@ -69,24 +70,22 @@ for iter=1:1000
         j=N(k);
     end
 % (3) FTRAN:
-    %loese A_B w=A.k
-    w=A(:,B)\A(:,j);
+    %loese A_B w=A.j
+    w=A(:,B)\A(:,j); 
 % (4) Ratiotest:
-    if any(w<=tol) %all or any ??
+    if all(w<=0)
         message='LP ist unbeschraenkt';
         Zielfktnswert=NaN;
         xopt=xopt*NaN;
         return
     else
-        M=NaN*zeros(1,m);
-        for i=1:m
-            if(w(i)>0)
-                M(i)=(xopt(B(i)))/w(i);
-            end
+        i=1;    
+        while w(i)<=0
+            i=i+1;
         end
-        [gamma,i]=min(M);
-    end 
-        
+        gamma=(xopt(B(i)))/w(i);
+    end
+    
 % (5) Update:
    % xopt=xB-gamma*w;
     for l=1:m
@@ -95,5 +94,5 @@ for iter=1:1000
     N(k)=B(i);
     B(i)=j;
     xopt(j)=gamma;    
-    Zielfktnswert=c'*xopt;
+    Zielfktnswert=c'*xopt
 end

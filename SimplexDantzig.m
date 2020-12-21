@@ -45,10 +45,11 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
     for i=1:m
         xopt(B(i))=xB(i);
     end
-    Zielfktnswert=c'*xopt
+    Zielfktnswert=c'*xopt;
+    message='init';
     
 for iter=1:1000
-    iter
+    iter;
 % Einzelnen Schritte des Algorithmus:
 
 % (1) BTRAN:  
@@ -62,8 +63,8 @@ for iter=1:1000
         message='LP hat optimallsg';
         return
     else
-        [~,k]=min(z_N);
-        j=N(k);
+       [~,k]=min(z_N);
+       j=N(k);
     end
 % (3) FTRAN:
     %loese A_B w=A.j
@@ -94,6 +95,3 @@ for iter=1:1000
     xopt(j)=gamma;    
     Zielfktnswert=c'*xopt; 
 end
-
-    
-
