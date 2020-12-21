@@ -3,7 +3,7 @@ Out(1,1)=''
 Out(1,2)='Zielwert Dantzig';
 Out(1,3)='Zielwert Bland'
 Out(1,4)='Matlab linprog Zielwert';
-for i=1:1
+for i=1:5
     text=append('Beispiel',int2str(i),'.mat')
     load (text)
     Out(i+1,1)=text;

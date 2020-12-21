@@ -63,8 +63,11 @@ for iter=1:1000
         message='LP hat optimallsg';
         return
     else
-       [~,k]=min(z_N);
-       j=N(k);
+        k=1;
+        while z_N(k)>=0
+            k=k+1;
+        end
+        j=N(k);
     end
 % (3) FTRAN:
     %loese A_B w=A.j
@@ -82,16 +85,19 @@ for iter=1:1000
                 M(i)=(xopt(B(i)))/w(i);
             end
         end
-        [gamma,i]=min(M); %nimmt kleinsten indize
-    end 
-        
+        gamma=min(M);
+        I=find(abs(M-gamma)<t)
+        kleinste_zul_Bwert=min(B(I));
+        i=find(B==kleinste_zul_Bwert);
+    end
+    
 % (5) Update:
    % xopt=xB-gamma*w;
     for l=1:m
         xopt(B(l))=xopt(B(l))-gamma*w(l);
     end
-    N(k)=B(i);
+    N(k)=B(i)
     B(i)=j;
-    xopt(j)=gamma;    
-    Zielfktnswert=c'*xopt; 
+    xopt(j)=gamma    
+    Zielfktnswert=c'*xopt
 end

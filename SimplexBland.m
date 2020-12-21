@@ -79,11 +79,16 @@ for iter=1:1000
         xopt=xopt*NaN;
         return
     else
-        i=1;    
-        while w(i)<=0
-            i=i+1;
+        M=NaN*zeros(1,m);
+        for i=1:m
+            if(w(i)>0)
+                M(i)=(xopt(B(i)))/w(i);
+            end
         end
-        gamma=(xopt(B(i)))/w(i);
+        gamma=min(M);
+        I=find(abs(M-gamma)<tol)
+        kleinste_zul_Bwert=min(B(I));
+        i=find(B==kleinste_zul_Bwert);
     end
     
 % (5) Update:
@@ -91,8 +96,8 @@ for iter=1:1000
     for l=1:m
         xopt(B(l))=xopt(B(l))-gamma*w(l);
     end
-    N(k)=B(i);
+    N(k)=B(i)
     B(i)=j;
-    xopt(j)=gamma;    
+    xopt(j)=gamma    
     Zielfktnswert=c'*xopt
 end
