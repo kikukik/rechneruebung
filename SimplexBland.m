@@ -1,4 +1,4 @@
-function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
+function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
 %function [ xopt,B ,message, iter] = primalSimplex( A,b,c,Binit,xB )
 %
 % Primales Simplexverfahren
@@ -39,7 +39,7 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
     B=Binit;
     N=setdiff((1:n),B);
     if nargin<5
-        xB=A_Binit/b;
+        xB=A_Binit\b;
     end
     xopt=zeros(n,1);
     for i=1:m
@@ -86,7 +86,7 @@ for iter=1:1000
             end
         end
         gamma=min(M);
-        I=find(abs(M-gamma)<tol)
+        I=find(abs(M-gamma)<tol);
         kleinste_zul_Bwert=min(B(I));
         i=find(B==kleinste_zul_Bwert);
     end
@@ -96,8 +96,8 @@ for iter=1:1000
     for l=1:m
         xopt(B(l))=xopt(B(l))-gamma*w(l);
     end
-    N(k)=B(i)
+    N(k)=B(i);
     B(i)=j;
-    xopt(j)=gamma    
-    Zielfktnswert=c'*xopt
+    xopt(j)=gamma;    
+    Zielfktnswert=c'*xopt;
 end
