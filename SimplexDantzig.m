@@ -12,7 +12,7 @@ function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
 %         message   - Information über Optimallösung oder Unbeschraenktheit
 %         iter      - Anzahl der Iterationen
 %
-% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM 
 
 % Toleranz Definieren!(siehe Blatt)
     tol=1e-6;

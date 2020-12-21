@@ -1,4 +1,4 @@
-% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM 
 % Initialisierung mit Werten der Aufgabenstellung (Form Ax=b, x>=0)
 A=[-2 -9 1 9 1 0 ; 1/3 1 -1/3 -2 0 1];
 b=[0;0];
