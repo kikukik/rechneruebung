@@ -86,7 +86,7 @@ for iter=1:1000
             end
         end
         gamma=min(M);
-        I=find(abs(M-gamma)<tol)
+        I=find(abs(M-gamma)<tol);
         kleinste_zul_Bwert=min(B(I));
         i=find(B==kleinste_zul_Bwert);
     end
@@ -96,7 +96,7 @@ for iter=1:1000
     for l=1:m
         xopt(B(l))=xopt(B(l))-gamma*w(l);
     end
-    N(k)=B(i)
+    N(k)=B(i);
     B(i)=j;
     xopt(j)=gamma    
     Zielfktnswert=c'*xopt
