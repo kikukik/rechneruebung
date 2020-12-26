@@ -1,3 +1,4 @@
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM 
 Out=string(zeros(6,4));
 Out(1,1)=''
 Out(1,2)='Zielwert Dantzig';

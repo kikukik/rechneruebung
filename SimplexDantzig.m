@@ -1,4 +1,4 @@
-function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
+function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
 %function [ xopt,B ,message, iter] = primalSimplex( A,b,c,Binit,xB )
 %
 % Primales Simplexverfahren
@@ -12,7 +12,7 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
 %         message   - Information über Optimallösung oder Unbeschraenktheit
 %         iter      - Anzahl der Iterationen
 %
-% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, DATUM 
 
 % Toleranz Definieren!(siehe Blatt)
     tol=1e-6;
@@ -39,7 +39,7 @@ function [ xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB
     B=Binit;
     N=setdiff((1:n),B);
     if nargin<5
-        xB=A_Binit/b;
+        xB=A_Binit\b;
     end
     xopt=zeros(n,1);
     for i=1:m
@@ -93,5 +93,8 @@ for iter=1:1000
     N(k)=B(i);
     B(i)=j;
     xopt(j)=gamma;    
-    Zielfktnswert=c'*xopt; 
+    Zielfktnswert=c'*xopt;
+    
+ % Ausgabe der aktuellen Basis für Kreiseln (Aufgabe 5):
+    B
 end
