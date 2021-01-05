@@ -59,21 +59,18 @@ for iter=1:1000
 % (2) Pricing:
     %berechne z_N=c_N-A_N'*y
     z_N=c(N)-A(:,N).'*y;
-    if all(z_N>=-tol) % -tol statt 0
+    if all(z_N>=-tol)
         message='LP hat optimallsg';
         return
     else
-        k=1;
-        while z_N(k)>=0
-            k=k+1;
-        end
-        j=N(k);
+       [~,k]=min(z_N);
+       j=N(k);
     end
 % (3) FTRAN:
     %loese A_B w=A.j
     w=A(:,B)\A(:,j); 
 % (4) Ratiotest:
-    if all(w<=tol) % tol statt 0
+    if all(w<=tol)
         message='LP ist unbeschraenkt';
         Zielfktnswert=NaN;
         xopt=xopt*NaN;
@@ -81,16 +78,13 @@ for iter=1:1000
     else
         M=NaN*zeros(1,m);
         for i=1:m
-            if(w(i)>tol) % tol statt 0
+            if(w(i)>0)
                 M(i)=(xopt(B(i)))/w(i);
             end
         end
-        gamma=min(M);
-        I=find(abs(M-gamma)<tol);
-        kleinste_zul_Bwert=min(B(I));
-        i=find(B==kleinste_zul_Bwert);
-    end
-    
+        [gamma,i]=min(M); %nimmt kleinsten indize
+    end 
+        
 % (5) Update:
    % xopt=xB-gamma*w;
     for l=1:m
@@ -100,4 +94,7 @@ for iter=1:1000
     B(i)=j;
     xopt(j)=gamma;    
     Zielfktnswert=c'*xopt;
+    
+ % Ausgabe der aktuellen Basis für Kreiseln (Aufgabe 5):
+    %B
 end

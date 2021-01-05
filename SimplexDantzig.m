@@ -29,7 +29,7 @@ function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
     A_Binit=A(:,Binit);
     if rank(A_Binit)~=m
         error('Binit ist keine Basis')
-    elseif any(A_Binit\b<0)
+    elseif any(A_Binit\b<-tol) % -tol statt 0
         error('Binit is nicht primal zulaessig')
     elseif nargin==5 && any(A_Binit\b~=xB)
             error('xB stimmen nicht')
@@ -59,7 +59,7 @@ for iter=1:1000
 % (2) Pricing:
     %berechne z_N=c_N-A_N'*y
     z_N=c(N)-A(:,N).'*y;
-    if all(z_N>=0)
+    if all(z_N>=-tol) % -tol statt 0
         message='LP hat optimallsg';
         return
     else
@@ -70,7 +70,7 @@ for iter=1:1000
     %loese A_B w=A.j
     w=A(:,B)\A(:,j); 
 % (4) Ratiotest:
-    if all(w<=0)
+    if all(w<=tol) % tol statt 0
         message='LP ist unbeschraenkt';
         Zielfktnswert=NaN;
         xopt=xopt*NaN;
@@ -78,7 +78,7 @@ for iter=1:1000
     else
         M=NaN*zeros(1,m);
         for i=1:m
-            if(w(i)>0)
+            if(w(i)>tol) % tol statt 0
                 M(i)=(xopt(B(i)))/w(i);
             end
         end
@@ -96,5 +96,5 @@ for iter=1:1000
     Zielfktnswert=c'*xopt;
     
  % Ausgabe der aktuellen Basis für Kreiseln (Aufgabe 5):
-    B
+    %B
 end
