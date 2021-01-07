@@ -64,7 +64,7 @@ for iter=1:1000
         return
     else
         k=1;
-        while z_N(k)>=0
+        while z_N(k)>=-tol % -tol statt 0
             k=k+1;
         end
         j=N(k);
