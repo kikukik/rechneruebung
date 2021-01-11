@@ -1,4 +1,4 @@
-function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
+function [xopt,B,message, iter, Zielfktnswert] = SimplexBland( A,b,c,Binit,xB)
 %function [ xopt,B ,message, iter] = primalSimplex( A,b,c,Binit,xB )
 %
 % Primales Simplexverfahren
