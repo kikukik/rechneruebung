@@ -38,11 +38,3 @@ for i=1:5
 end
 Out
 
-% %H5
-% A=[-2 -9 1 9 1 0;
-%     1/3 1 -1/3 -2 0 1];
-% b=[0;0];
-% c=[-2 -3 1 12 0 0].';
-% Binit=[5 6];
-% [xopt,B,message, iter, Zielfktnswert] = SimplexBland( A,b,c,Binit)
-
