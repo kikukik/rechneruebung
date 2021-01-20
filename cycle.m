@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 17.01.21
-=======
 % Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 20.01.2021
->>>>>>> Stashed changes
+
 % Initialisierung mit Werten der Aufgabenstellung (Form Ax=b, x>=0)
 A=[-2 -9 1 9 1 0 ; 1/3 1 -1/3 -2 0 1];
 b=[0;0];

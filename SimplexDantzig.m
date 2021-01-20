@@ -12,11 +12,7 @@ function [xopt,B,message, iter, Zielfktnswert] = SimplexDantzig( A,b,c,Binit,xB)
 %         message   - Information über Optimallösung oder Unbeschraenktheit
 %         iter      - Anzahl der Iterationen
 %
-<<<<<<< Updated upstream
-% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 17.01.21 
-=======
 % Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 20.01.2021 
->>>>>>> Stashed changes
 
 % Toleranz Definieren!(siehe Blatt)
     tol=1e-6;
@@ -98,8 +94,7 @@ for iter=1:1000
     B(i)=j;
     xopt(j)=gamma;    
     Zielfktnswert=c'*xopt;
-    %B
     
  % Ausgabe der aktuellen Basis für Kreiseln (Aufgabe 5):
-    B
+    %B
 end
