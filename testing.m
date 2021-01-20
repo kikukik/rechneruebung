@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 % Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 17.01.21 
+=======
+% Patrick Nowak, Yannick Gläßer, Tim Rauch, Ben Meyer, 20.01.2021
+>>>>>>> Stashed changes
 Out=string(zeros(6,4));
 Out(1,1)='';
 Out(1,2)='Zielwert Dantzig';
